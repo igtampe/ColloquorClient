@@ -28,10 +28,11 @@ namespace ColloquorClient {
 
         //--------------------------------------------[Constructor]--------------------------------------------
 
-        public MainForm(ref Colloquor.ColloquorClient Client) {
+        public MainForm(ref Colloquor.ColloquorClient Client, String ChannelName) {
             InitializeComponent();
             Mainclient = Client;
             LastMessage = "";
+            Text = "Colloquor : " + ChannelName;
         }
 
         //--------------------------------------------[Form Events]--------------------------------------------
@@ -43,6 +44,10 @@ namespace ColloquorClient {
 
         public void ClosingTime(object sender,FormClosingEventArgs e) {
             AlreadyClosed = true;
+
+            //Wait for the client to not be busy before closing
+            while(Mainclient.IsBusy()) { }
+
             ChatboxKeepUpdated.CancelAsync();
         }
 
@@ -80,7 +85,7 @@ namespace ColloquorClient {
 
             while(!ChatboxKeepUpdated.CancellationPending) {
                 
-                Thread.Sleep(100); //Make sure we have a moment to breathe
+                Thread.Sleep(50); //Make sure we have a moment to breathe
                 while(Mainclient.IsBusy()) { } //Wait for the client to not be busy
 
                 try {
@@ -98,9 +103,11 @@ namespace ColloquorClient {
                     CKUR = ChatboxKeepUpdatedResult.KICKED;
                     return;
                 }
-                
-                if(CKUR == ChatboxKeepUpdatedResult.UNKNOWN) { CKUR = ChatboxKeepUpdatedResult.NORMAL_EXIT; }
+
+                Thread.Sleep(50); //Make sure we have a moment to breathe
             }
+
+            if(CKUR == ChatboxKeepUpdatedResult.UNKNOWN) { CKUR = ChatboxKeepUpdatedResult.NORMAL_EXIT; }
         }
 
         //Update the textbox

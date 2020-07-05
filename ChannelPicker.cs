@@ -125,9 +125,9 @@ namespace ColloquorClient {
                     break;
                 case Colloquor.ColloquorClient.CQUORJoinResult.SUCCESS:
                     Hide();
-                    new MainForm(ref MainClient).ShowDialog();
-                    if(!MainClient.Connected) { Close(); } 
-                    else { try { MainClient.Leave(); } catch(InvalidOperationException) { } Show(); }
+                    new MainForm(ref MainClient,ChannelsListbox.SelectedItem.ToString()).ShowDialog();
+                    if(!MainClient.Connected) { Close(); }  //Catch if timed out
+                    else { try { MainClient.Leave(); } catch(InvalidOperationException) { } Show(); } //Catch if kicked due to leave.
                     break;
                 default:
                     break;
