@@ -119,7 +119,7 @@ namespace ColloquorClient {
             // leaveToolStripMenuItem
             // 
             this.leaveToolStripMenuItem.Name = "leaveToolStripMenuItem";
-            this.leaveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.leaveToolStripMenuItem.Size = new System.Drawing.Size(104, 22);
             this.leaveToolStripMenuItem.Text = "Leave";
             this.leaveToolStripMenuItem.Click += new System.EventHandler(this.leaveToolStripMenuItem_Click);
             // 
@@ -134,7 +134,7 @@ namespace ColloquorClient {
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
             // 
