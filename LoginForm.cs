@@ -20,6 +20,8 @@ namespace ColloquorClient {
             if(e.KeyCode == Keys.Enter) {button1_Click("Hello",new EventArgs());}
         }
 
+        private void pictureBox1_Click(object sender,EventArgs e) {new AboutForm().ShowDialog();}
+
         private void button1_Click(object sender,EventArgs e) {
 
             if(!int.TryParse(PortBox.Text,out int Port)) {

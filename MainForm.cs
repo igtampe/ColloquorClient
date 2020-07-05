@@ -49,11 +49,7 @@ namespace ColloquorClient {
         //--------------------------------------------[Buttons]--------------------------------------------
 
         private void leaveToolStripMenuItem_Click(object sender,EventArgs e) {Close();}
-        private void closeToolStripMenuItem_Click(object sender,EventArgs e) {
-            Mainclient.Leave();
-            Mainclient.Close();             
-            Close(); 
-        }
+        private void aboutToolStripMenuItem_Click(object sender,EventArgs e) {new AboutForm().Show();}
 
         private void CheckEnter(object sender,KeyEventArgs e) {if(e.KeyCode == Keys.Enter) { SendBTN_Click("hello it is me",new EventArgs()); }}
         private void SendBTN_Click(object sender,EventArgs e) {

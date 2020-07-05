@@ -49,6 +49,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AboutForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AboutForm.Designer.cs">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ChannelPicker.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +83,9 @@
       <DependentUpon>StandbyForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Switchboard\SwitchboardClient.cs" />
+    <EmbeddedResource Include="AboutForm.resx">
+      <DependentUpon>AboutForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="ChannelPicker.resx">
       <DependentUpon>ChannelPicker.cs</DependentUpon>
     </EmbeddedResource>
@@ -114,6 +123,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Colloquor %28Super New%29.ico" />
+    <None Include="Resources\Colloquor %28Banner%29.png" />
+    <None Include="Resources\Colloquor2.4.zip" />
     <None Include="Resources\XVo6.gif" />
     <None Include="Resources\Colloquor %28Banner%29 %28vertical%29.png" />
   </ItemGroup>
