@@ -1,4 +1,4 @@
-# Colloquor 4
+![ColloquorBanner](https://raw.githubusercontent.com/igtampe/ColloquorClient/master/Resources/Colloquor%20(Banner).png)
 Colloquor is a basic chat application, which allows users to connect to "channels" and communicate with each other. I wrote it mostly as an example of what Switchboard can do. It's the 4th version, because it's the newest incarnation of a batch program I wrote back in 2014. A release of Colloquor 2.4, the last version before the only barely successful SSH Single window batch version, along with the following dedication.
 
 Learn more about Colloquor on our Server's repo here: https://github.com/igtampe/ColloquorServer
