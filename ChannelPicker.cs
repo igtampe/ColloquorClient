@@ -57,12 +57,18 @@ namespace ColloquorClient {
         private void DisconnectButton_Click(object sender,EventArgs e) {Close();}
         private void JoinChannelButton_Click(object sender,EventArgs e) {
 
-            Enabled = false;
-
             JoinInfo Info;
-            if(PasswordBox.Enabled) { Info = new JoinInfo(ChannelsListbox.SelectedItem.ToString(),PasswordBox.Text);}
-            else{ Info = new JoinInfo(ChannelsListbox.SelectedItem.ToString()); }
+            bool Passworded = false;
+
+            try { Passworded = Channels[ChannelsListbox.SelectedItem.ToString()]; } 
+            catch { MessageBox.Show("There's no channel selected!","n o",MessageBoxButtons.OK,MessageBoxIcon.Error); return; }
+
             
+
+            if(Passworded) { Info = new JoinInfo(ChannelsListbox.SelectedItem.ToString(),PasswordBox.Text);}
+            else{ Info = new JoinInfo(ChannelsListbox.SelectedItem.ToString()); }
+
+            Enabled = false;
             JoinChannelBW.RunWorkerAsync(Info);
         }
 
@@ -120,7 +126,8 @@ namespace ColloquorClient {
                 case Colloquor.ColloquorClient.CQUORJoinResult.SUCCESS:
                     Hide();
                     new MainForm(ref MainClient).ShowDialog();
-                    if(!MainClient.Connected) { Close(); } else { MainClient.Leave(); Show(); }
+                    if(!MainClient.Connected) { Close(); } 
+                    else { try { MainClient.Leave(); } catch(InvalidOperationException) { } Show(); }
                     break;
                 default:
                     break;

@@ -1,4 +1,7 @@
-﻿namespace ColloquorClient {
+﻿using System;
+using System.Windows.Forms;
+
+namespace ColloquorClient {
     partial class MainForm {
         /// <summary>
         /// Required designer variable.
@@ -26,12 +29,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.ChatBox = new System.Windows.Forms.TextBox();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.SendBox = new System.Windows.Forms.TextBox();
             this.SendBTN = new System.Windows.Forms.Button();
             this.MainStrip = new System.Windows.Forms.MenuStrip();
             this.connectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.leaveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.ChatboxKeepUpdated = new System.ComponentModel.BackgroundWorker();
@@ -41,11 +43,12 @@
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.BackColor = System.Drawing.Color.Gray;
             this.tableLayoutPanel1.ColumnCount = 2;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 93F));
             this.tableLayoutPanel1.Controls.Add(this.ChatBox, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.textBox1, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.SendBox, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.SendBTN, 1, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 24);
@@ -59,21 +62,29 @@
             // 
             // ChatBox
             // 
+            this.ChatBox.BackColor = System.Drawing.Color.Black;
             this.tableLayoutPanel1.SetColumnSpan(this.ChatBox, 2);
             this.ChatBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.ChatBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ChatBox.ForeColor = System.Drawing.Color.White;
             this.ChatBox.Location = new System.Drawing.Point(13, 13);
             this.ChatBox.Multiline = true;
             this.ChatBox.Name = "ChatBox";
+            this.ChatBox.ReadOnly = true;
             this.ChatBox.Size = new System.Drawing.Size(721, 295);
             this.ChatBox.TabIndex = 0;
+            this.ChatBox.Text = "Hello";
             // 
-            // textBox1
+            // SendBox
             // 
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(13, 314);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(628, 20);
-            this.textBox1.TabIndex = 1;
+            this.SendBox.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.SendBox.Font = new System.Drawing.Font("Consolas", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.SendBox.Location = new System.Drawing.Point(13, 314);
+            this.SendBox.Name = "SendBox";
+            this.SendBox.Size = new System.Drawing.Size(628, 20);
+            this.SendBox.TabIndex = 1;
+            this.SendBox.Text = "Hello!";
+            this.SendBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.CheckEnter);
             // 
             // SendBTN
             // 
@@ -84,6 +95,7 @@
             this.SendBTN.TabIndex = 2;
             this.SendBTN.Text = "Send";
             this.SendBTN.UseVisualStyleBackColor = true;
+            this.SendBTN.Click += new System.EventHandler(this.SendBTN_Click);
             // 
             // MainStrip
             // 
@@ -99,8 +111,7 @@
             // connectionToolStripMenuItem
             // 
             this.connectionToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.leaveToolStripMenuItem,
-            this.closeToolStripMenuItem});
+            this.leaveToolStripMenuItem});
             this.connectionToolStripMenuItem.Name = "connectionToolStripMenuItem";
             this.connectionToolStripMenuItem.Size = new System.Drawing.Size(81, 20);
             this.connectionToolStripMenuItem.Text = "Connection";
@@ -111,13 +122,6 @@
             this.leaveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.leaveToolStripMenuItem.Text = "Leave";
             this.leaveToolStripMenuItem.Click += new System.EventHandler(this.leaveToolStripMenuItem_Click);
-            // 
-            // closeToolStripMenuItem
-            // 
-            this.closeToolStripMenuItem.Name = "closeToolStripMenuItem";
-            this.closeToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.closeToolStripMenuItem.Text = "Close";
-            this.closeToolStripMenuItem.Click += new System.EventHandler(this.closeToolStripMenuItem_Click);
             // 
             // helpToolStripMenuItem
             // 
@@ -130,8 +134,16 @@
             // aboutToolStripMenuItem
             // 
             this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
-            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.aboutToolStripMenuItem.Text = "About";
+            // 
+            // ChatboxKeepUpdated
+            // 
+            this.ChatboxKeepUpdated.WorkerReportsProgress = true;
+            this.ChatboxKeepUpdated.WorkerSupportsCancellation = true;
+            this.ChatboxKeepUpdated.DoWork += new System.ComponentModel.DoWorkEventHandler(this.ChatboxKeepUpdated_Start);
+            this.ChatboxKeepUpdated.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this.ChatboxKeepUpdated_Update);
+            this.ChatboxKeepUpdated.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this.ChatboxKeepUpdated_Done);
             // 
             // MainForm
             // 
@@ -145,6 +157,8 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "MainForm";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.ClosingTime);
+            this.Shown += new System.EventHandler(this.Showtime);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
             this.MainStrip.ResumeLayout(false);
@@ -158,12 +172,11 @@
 
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.TextBox ChatBox;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox SendBox;
         private System.Windows.Forms.Button SendBTN;
         private System.Windows.Forms.MenuStrip MainStrip;
         private System.Windows.Forms.ToolStripMenuItem connectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem leaveToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem closeToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.ComponentModel.BackgroundWorker ChatboxKeepUpdated;
