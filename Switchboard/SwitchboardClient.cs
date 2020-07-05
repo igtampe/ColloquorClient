@@ -126,7 +126,6 @@ namespace Switchboard {
             //10 second time out.
             for(int X = 0; X < 100; X++) {
                 if(Available) { break; }
-                if(Console.KeyAvailable) { if(Console.ReadKey().Key == ConsoleKey.Escape) { return "BREAK"; } } //This is to allow a user to breka the connection
                 Thread.Sleep(100);
             }
 

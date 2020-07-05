@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Switchboard;
 
 namespace Colloquor {
-    class ColloquorClient:SwitchboardClient {
+    public class ColloquorClient:SwitchboardClient {
 
         private String Username;
         private String Password;
@@ -23,6 +23,8 @@ namespace Colloquor {
         }
 
         public enum CQUORJoinResult:int {
+            TIMEOUT = -2,
+            UNKNOWN = -1,
             ALREADY = 0,
             NOTFOUND = 1,
             NEEDPASS = 2,
